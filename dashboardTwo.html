@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DashboardTwo</title>
+    <link rel="stylesheet" href="../DashboardTwo/dashboardTwo.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+    <style>
+      #ekyc-form {
+        width: 100%;
+        height: 100%;
+        transition: all 200ms linear;
+        /* border-left: 2px solid var(--secondary-color); */
+        display: none;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .container {
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      } 
+      .image-container {
+        height: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .form-container {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        margin-right: -7rem;
+      }
+      .parent-container {
+        width: 170px;
+        height: 300px;
+        /* border: 5px solid black; */
+        /* background: white;
+        border-radius: 10px; */
+        /* overflow: hidden; */
+        position: relative;
+        /* display:none; */
+      }
+      .mobile {
+        border-radius: 10px;
+        border: 5px solid black;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: #F0F0F0;
+        z-index: 2;
+        animation: mobileFade 1000ms ease-in-out forwards;
+        
+      }
+      .text {
+        width: 120px;
+        height: 80px;
+        position: absolute;
+        left: 5%;
+        top: 0;
+        background: #00836c;
+        clip-path: polygon(
+          0% 0%,
+          100% 0%,
+          100% 75%,
+          75% 75%,
+          75% 100%,
+          50% 75%,
+          0% 75%
+        );
+        z-index: 1;
+        animation: moveDown 4000ms ease-in-out forwards;
+        font-size: 0.75rem;
+        padding: 0.5rem;
+        font-weight: bold;
+        color: white;
+      }
+      .power-button {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        left: 50%;
+        bottom: 1rem;
+        transform: translateX(-50%);
+        z-index: 5;
+        border-radius: 50%;
+        border: 2px solid black;
+      }
+      .power-button::after {
+        content: "";
+        position: absolute;
+        width: 90%;
+        height: 90%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 100%;
+        border: 2px solid black;
+      }
+      @keyframes mobileFade {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 100%;
+        }
+      }
+      @keyframes moveDown {
+        0% {
+          opacity: 0;
+          transform: translateY(0%);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(-101%);
+        }
+      }
+      .form {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        font-size: 2rem;
+        backface-visibility: hidden;
+        position: absolute;
+      }
+
+      .form-back {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        font-size: 2rem;
+        backface-visibility: hidden;
+        transform: rotateY(180deg);
+        position: absolute;
+      }
+
+      .active{
+        transform: rotateY(180deg);
+      }
+
+      .form div input {
+        width: 50%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 10px;
+        border: 2px solid gray;
+      }
+
+      .form-back div input {
+        width: 2.5rem;
+        height: 2.5rem;
+        padding: 0.25rem;
+        font-size: 1rem;
+        border-radius: 3px;
+        border: 2px solid gray;
+        text-align: center;
+      }
+
+      input:focus{
+        outline: 2px solid #f58220;
+      }
+
+      .form button {
+        padding: 1rem;
+        background: none;
+        border-radius: 10px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        background: #f58220;
+        border: none;
+        color: white;
+        width: 20%;
+        margin-top: 3rem;
+      }
+
+      .form-back button {
+        padding: 1rem;
+        background: none;
+        border-radius: 10px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        background: #f58220;
+        border: none;
+        color: white;
+        width: 20%;
+        margin-top: 4rem;
+        outline: none;
+      }
+
+      article{
+        align-self: flex-start;
+      }
+
+      /* filp changes */
+
+      .thecard{
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        transform-style: preserve-3d;
+        transition: all 0.5s ease;
+        /* background: yellow; */
+      }
+
+      /* bday changes */
+
+      .bday{
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        transform-style: preserve-3d;
+        transition: all 0.5s ease;
+        display: none;
+        /* background: yellow; */
+       }
+
+       .bdayform .bdayinput input {
+        width: 50%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 10px;
+        border: 2px solid gray;
+      }
+
+
+      .bdayform button {
+        padding: 1rem;
+        background: none;
+        border-radius: 10px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        background: #f58220;
+        border: none;
+        color: white;
+        width: 20%;
+        margin-top: 3rem;
+      }  
+
+      .bdayform {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        font-size: 2rem;
+        backface-visibility: hidden;
+        position: absolute;
+
+
+      }
+
+
+      /* aadhar form */
+
+      .aadhar{
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        transform-style: preserve-3d;
+        transition: all 0.5s ease;
+        display: none;
+        /* background: yellow; */
+       }
+
+
+       .aadharform .aadharinput input {
+        width: 15%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 10px;
+        border: 2px solid gray;
+        text-align: center;
+      }
+
+      .aadharform button {
+        padding: 1rem;
+        background: none;
+        border-radius: 10px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        background: #f58220;
+        border: none;
+        color: white;
+        width: 20%;
+        margin-top: 3rem;
+      }  
+
+      .aadharform {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        font-size: 2rem;
+        backface-visibility: hidden;
+        position: absolute;
+
+
+      }
+
+      /* address form */
+
+      .address{
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        transform-style: preserve-3d;
+        transition: all 0.5s ease;
+        display: none;
+        /* background: yellow; */
+       }
+
+
+       .addressform .addressinput input {
+        width: 50%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 10px;
+        border: 2px solid gray;
+      }
+
+      .addressform button {
+        padding: 1rem;
+        background: none;
+        border-radius: 10px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        background: #f58220;
+        border: none;
+        color: white;
+        width: 20%;
+        margin-top: 3rem;
+      }  
+
+      .addressform {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        font-size: 2rem;
+        backface-visibility: hidden;
+        position: absolute;
+
+
+      }
+
+      /* name form */
+
+      .name1{
+        position: absolute;
+        width: 50%;
+        height: 50%;
+        transform-style: preserve-3d;
+        transition: all 0.5s ease;
+        display: none;
+        /* background: yellow; */
+       }
+
+
+       .name1form .name1input input {
+        width: 80%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border-radius: 10px;
+        border: 2px solid gray;
+      }
+
+      .name1form button {
+        padding: 1rem;
+        background: none;
+        border-radius: 10px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        background: #f58220;
+        border: none;
+        color: white;
+        width: 30%;
+        margin-top: 3rem;
+      }  
+
+      .name1form {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        font-size: 2rem;
+        backface-visibility: hidden;
+        position: absolute;
+
+
+      }
+
+      /* location animation */
+
+      * {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: white;
+}
+
+.box {
+  width: 400px;
+  height: 300px;
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+  background: none;
+  animation: updown 1s ease 0.2s infinite;
+  z-index: 99;
+}
+
+
+.circle {
+  position: relative;
+  background-color: #ef2929;
+  width: 120px;
+  height: 120px;
+  margin: auto;
+  padding: 0;
+  top: 40px;
+  border-radius: 50%;
+}
+
+.inner {
+  position: relative;
+  background-color: white;
+  width: 40px;
+  height: 40px;
+  margin: auto;
+  padding: 0;
+  top: 40px;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+.highlight {
+  position: relative;
+  width: 119px;
+  height: 120px;
+  margin: auto;
+  padding: 0;
+  z-index: 3;
+  top: -43px;
+  left: 1.3px;
+  border-radius: 50%;
+  border-top: #ff7676 5px solid;
+  transform: rotate(30deg);
+}
+
+.square {
+  position: relative;
+  background-color: #ef2929;
+  width: 60px;
+  height: 60px;
+  margin: auto;
+  padding: 0;
+  bottom: 7px;
+  transform: rotate(-45deg);
+  z-index: 2;
+  border-bottom-left-radius: 8px;
+}
+
+.shadow {
+  position: relative;
+  background-color: black;
+  width: 140px;
+  height: 40px;
+  border-radius: 50%;
+  margin: auto;
+  padding: 0;
+  top: -4px;
+  opacity: 0.20;
+  z-index: 0;
+  animation: shadow 1s ease 0.2s infinite;
+}
+
+@keyframes updown {
+    0%   {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(8px);
+    }
+  
+    100% {
+      transform: translateY(0px);
+    }
+}
+
+@keyframes shadow {
+    0%   {
+      transform: scale(1);
+      opacity: 0.20;
+    }
+
+    50% {
+      transform: scale(0.95);
+      opacity: 0.28;
+    }
+  
+    100% {
+      transform: scale(1);
+      opacity: 0.20;
+    }
+}
+
+  .home{
+    display: none;
+  }
+
+  /* date */
+  
+  * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: white;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .calendar {
+        /* padding: 10rem; */
+        background: white;
+        width: 220px;
+        height: 500px;
+        overflow: hidden;
+        position: relative;
+        border-radius: 5px;
+        display: none;
+        margin-top: 100px;
+      }
+      .calendar__header {
+        width: 100%;
+        padding: 0.25rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 3px solid black;
+        border-radius: 5px;
+        background: white;
+      }
+      .calendar__body {
+        width: 100%;
+        /* height: 250px; */
+        border: 2px solid black;
+        border-radius: 5px;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        z-index: 2;
+        transform: translateY(-100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* animation: slideDown 1000ms forwards ease-in-out; */
+      }
+      @keyframes slideDown {
+        100% {
+          transform: translateY(17%);
+        }
+      }
+      .calendar__footer {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        font-size: 0.75rem;
+        text-transform: capitalize;
+        letter-spacing: 1px;
+        color: black;
+        font-weight: bold;
+      }
+
+      .calendar__header div input {
+        width: 2rem;
+        padding: 0.25rem;
+        border: none;
+        text-align: center;
+        color: black;
+        font-weight: bold;
+      }
+      .calendar__header div input:nth-child(5) {
+        width: 3rem;
+      }
+      .calendar__header button {
+        height: 1.5rem;
+        width: 2rem;
+      }
+
+      td {
+        padding: 0.25rem;
+        text-align: center;
+        font-size: 1rem;
+      }
+      th {
+        padding: 0.25rem;
+        font-size: 0.8rem;
+      }
+      .modal {
+        position: absolute;
+        background: yellow;
+        z-index: 100000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* aadhar name */
+
+      .aadharcard{
+        display: none;
+      }
+
+      .aadhar_fig{
+        height: 180px;
+        width: 285px;
+        background-color: #ef2929;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 0 4px 1px rgba(0,0,0,0.5);
+        position: relative;
+      }
+
+      .aadhar_fig img{
+        width: 100%;
+        height: 100%;
+      }
+
+      .aadhartext{
+        position: absolute;
+        z-index: 1000;
+        top: 35%;
+        right: 0;
+        background: whitesmoke;
+        width: 60%;
+        font-size: 12px;
+      }
+
+      /* aadhar number */
+
+      .aadharnumber{
+        display: none;
+      }
+
+      .aadharnumber_fig{
+        height: 180px;
+        width: 285px;
+        background-color: #ef2929;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 0 4px 1px rgba(0,0,0,0.5);
+        position: relative;
+      }
+
+      .aadharnumber_fig img{
+        width: 100%;
+        height: 100%;
+      }
+
+      .aadharnumbertext{
+        position: absolute;
+        z-index: 1000;
+        top: 75%;
+        right: 40px;
+        background: whitesmoke;
+        width: 60%;
+        font-size: 13px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <section class="dashboard-section">
+      <aside class="sidebar">
+        <nav class="sidebar-navbar">
+          <!-- <figure class="inactive" id="logo1">
+            <img src="../../assests/logo/idbi-symbol.png" />
+          </figure> -->
+          <figure id="logo2">
+            <img src="../../assests/logo/idbi-bank-logo.svg" alt="" />
+          </figure>
+          <button><i class="fa fa-bars"></i></button>
+        </nav>
+        <div class="sidebar-buttons-container">
+          <button class="sidebarButton sidebar-button-active">
+            <i class="fa fa-home"></i>
+            <span>dashboard</span>
+          </button>
+          <button class="sidebarButton">
+            <i class="fa fa-user"> </i>
+            <span>profile</span>
+          </button>
+          <button class="sidebarButton">
+            <i class="fa-solid fa-circle-e"></i>
+            <span style="text-transform: none">eKYC-Form</span>
+          </button>
+        </div>
+      </aside>
+      <div class="tabs-container">
+        <nav class="tabs-navbar">
+          <div class="profile-container">
+            <div>
+              <h1>Welcome, user</h1>
+              <span>Last Login:Apr 11, 2022 10:10:18</span>
+            </div>
+
+            <figure>
+              <img src="../../assests/logo/logo2.png" alt="" />
+              <!-- <i class="fa fa-user"> </i> -->
+            </figure>
+            <div class="submenu">
+              <button><i class="fa fa-gear"></i><span>Settings</span></button>
+              <button>
+                <i class="fa fa-user" aria-hidden="true"></i><span>User</span>
+              </button>
+              <button>
+                <i class="fa fa-language" aria-hidden="true"></i
+                ><span>Language</span>
+              </button>
+              <button>
+                <i class="fa fa-info-circle" aria-hidden="true"></i
+                ><span>Help</span>
+              </button>
+              <button>
+                <i class="fa fa-sign-out" aria-hidden="true"></i
+                ><span>Logout</span>
+              </button>
+            </div>
+          </div>
+        </nav>
+        <div class="tabs">
+          <div
+            id="dashboard"
+            class="forms animation cibil-section"
+            style="
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              padding: 0;
+            ">
+
+
+          <main class="form-container">
+            <div class="thecard" >
+            <article class="form">
+              <h1 style="margin-top: -5rem; font-size: 3rem; color: #01684F;">Enter your mobile number</h1>
+              <div style="display: flex; flex-direction: column; margin-top: 2rem;">
+                <input type="text" placeholder="enter your mobile number" maxlength="10" style="outline: none;" />
+                <p style="font-size: 0.7rem; text-align: left; color: black; background-color: #F0F0F0; padding: 5px;font-weight: bold;border-radius: 5px;">
+                  Note: An otp will be send to your registered mobile number for
+                  verification purpose.
+                </p>
+              </div>
+              <button  type="button" id="front-submit-button" style="cursor: pointer;">Submit</button>
+            </article>
+
+            <article class="form-back" id="formback">
+              <h1 style="margin-top: -5rem; font-size: 3rem; color: #01684F;">Enter the verification code </h1>
+              <div style="display: flex; flex-direction: column; margin-top: 2rem;">
+                <div class="input-box">
+                <input type="text" maxlength="1" id="verify1" />
+                <input type="text" maxlength="1" id="verify2"/>
+                <input type="text" maxlength="1" id="verify3"/>
+                <input type="text" maxlength="1" id="verify4"/>
+              </div>
+                <p style="font-size: 0.7rem; text-align: left; color: black; background-color: #F0F0F0; padding: 5px;font-weight: bold;border-radius: 5px; margin-top: 1rem;">
+                  Note: An otp will be send to your registered mobile number for
+                  verification purpose.
+                </p>
+              </div>
+              <div class="submit-button">
+              <button type="button" id="back-submit-button" >Verify</button>
+            </div>
+            </article>
+
+            
+
+          </div>
+
+          <div class="bday" id="bday">
+            <article class="bdayform" id="bdayform">
+              <h1 style="margin-top: -8rem; font-size: 3rem; color: #01684F;">Enter your Birth Date</h1>
+              <div class = "bdayinput" style="display: flex; flex-direction: column; margin-top: 2rem;">
+                <input type="date" placeholder="enter your mobile number" maxlength="10" style="outline: none;" />
+                <p style="font-size: 0.7rem; text-align: left; color: black; background-color: #F0F0F0; padding: 5px;font-weight: bold;border-radius: 5px;">
+                  Note: Enter the Birth Date according to aadhar.
+                </p>
+              </div>
+              <button  type="button" id="nextbutton" style="cursor: pointer;">Next</button>
+            </article>
+
+          </div>
+
+          <div class="aadhar" id="aadhar">
+            <article class="aadharform" id="aadharform">
+              <h1 style="margin-top: -5rem; font-size: 3rem; color: #01684F;">Enter your Aadhar Number</h1>
+              <div class = "aadharinput" style="display: flex; flex-direction: column; margin-top: 2rem;">
+                <div class="input-box">
+                  <input type="text" maxlength="4" placeholder="XXXX" id="aadhar1" /> -
+                  <input type="text" maxlength="4" placeholder="XXXX" id="aadhar2"/> -
+                  <input type="text" maxlength="4" placeholder="XXXX" id="aadhar3"/>
+                  
+                </div>
+                <p style="font-size: 0.7rem; text-align: left; color: black; background-color: #F0F0F0; padding: 5px;font-weight: bold;border-radius: 5px;">
+                  Note: Enter the 12digit number.
+                </p>
+              </div>
+              <button  type="button" id="nextbutton1" style="cursor: pointer;">Next</button>
+            </article>
+
+          </div>
+
+          <div class="address" id="address">
+            <article class="addressform" id="addressform">
+              <h1 style="margin-top: -5rem; font-size: 3rem; color: #01684F;">Enter your Address</h1>
+              <div class = "addressinput" style="display: flex; flex-direction: column; margin-top: 2rem;">
+                <div class="input-box">
+                  <input type="text"  /> 
+                  <input type="text" /> 
+                  <input type="text" />
+                  
+                </div>
+                <p style="font-size: 0.7rem; text-align: left; color: black; background-color: #F0F0F0; padding: 5px;font-weight: bold;border-radius: 5px;">
+                  Note: Enter your permanent address.
+                </p>
+              </div>
+              <button  type="button" id="nextbutton2" style="cursor: pointer;">Next</button>
+            </article>
+
+          </div>
+
+          <div class="name1" id="name1">
+            <article class="name1form" id="name1form">
+              <h1 style="margin-top: -5rem; font-size: 3rem; color: #01684F;">Enter your Name</h1>
+              <div class = "name1input" style="display: flex; flex-direction: column; margin-top: 2rem;">
+                <div class="input-box">
+                  <input type="text"  /> 
+                                   
+                </div>
+                <p style="font-size: 0.7rem; text-align: left; color: black; background-color: #F0F0F0; padding: 5px;font-weight: bold;border-radius: 5px;">
+                  Note: Enter your name according to aadhar.
+                </p>
+              </div>
+              <button  type="button"  style="cursor: pointer;">Submit</button>
+            </article>
+
+          </div>
+
+
+          </main>
+
+          <main class="image-container">
+
+            <!-- mobile -->
+            <div class="parent-container" id="mobile">
+              <div class="mobile"></div>
+              <div class="text">Otp send to your registered mobile number.</div>
+              <div class="power-button"></div>
+            </div>
+
+            <!-- date -->
+         
+            <main class="calendar" id="date" >
+              <div class="calendar__header">
+                <div>
+                  <input type="text" placeholder="dd" id="day" /><span>-</span>
+                  <input type="text" placeholder="mm" id="month" /><span>-</span>
+                  <input type="text" placeholder="yyyy" id="year" />
+                </div>
+                <figure style="width: 1.5rem; height: 1.5rem" id="calendar-figure">
+                  <img
+                    src="../../assests/logo/calendar.png"
+                    style="width: 100%; height: 100%; object-fit: cover"
+                  />
+                </figure>
+              </div>
+              <div class="calendar__body">
+                <div
+                  style="
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0.25rem;
+                    font-weight: bold;
+                  "
+                >
+                  <p>December, 1989</p>
+                </div>
+                <div style="padding: 0.25rem">
+                  <table>
+                    <tr>
+                      <th>Mon</th>
+                      <th>Tue</th>
+                      <th>Wed</th>
+                      <th>Thu</th>
+                      <th>Fri</th>
+                      <th>Sat</th>
+                      <th>Sun</th>
+                    </tr>
+                    <tr>
+                      <td id="one">1</td>
+                      <td>2</td>
+                      <td>3</td>
+                      <td>4</td>
+                      <td>5</td>
+                      <td>6</td>
+                      <td>7</td>
+                    </tr>
+                    <tr>
+                      <td>8</td>
+                      <td>9</td>
+                      <td>10</td>
+                      <td>11</td>
+                      <td>12</td>
+                      <td>13</td>
+                      <td>14</td>
+                    </tr>
+                    <tr>
+                      <td>15</td>
+                      <td>16</td>
+                      <td>17</td>
+                      <td>18</td>
+                      <td>19</td>
+                      <td>20</td>
+                      <td>21</td>
+                    </tr>
+                    <tr>
+                      <td>22</td>
+                      <td>23</td>
+                      <td>24</td>
+                      <td>25</td>
+                      <td>26</td>
+                      <td>27</td>
+                      <td>28</td>
+                    </tr>
+                    <tr>
+                      <td>29</td>
+                      <td>30</td>
+                      <td>31</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="calendar__footer">
+                  <span>clear</span>
+                  <span>today</span>
+                </div>
+              </div>
+              <div class="modal">
+                <p>Select your date of birth</p>
+              </div>
+            </main>
+          
+          <!-- aadhar name -->
+
+          <div class="aadharcard" id="aadharcard">
+
+            <figure class="aadhar_fig">
+            <img src="../../assests/logo/aadhar card.jpg">
+
+            <div class="aadhartext">
+              <p>Enter Your Name</p>
+            </div>
+
+            </figure>
+
+            
+          </div>
+
+          
+          <!-- aadhar number -->
+
+          <div class="aadharnumber" id="aadharnumber">
+
+            <figure class="aadharnumber_fig">
+            <img src="../../assests/logo/aadhar card.jpg">
+
+            <div class="aadharnumbertext">
+              <p>Enter Your Aadhar Number</p>
+            </div>
+
+            </figure>
+
+            
+          </div>
+          
+          <!-- location -->
+          <div class="home" id="home">
+            <div class="box">
+              <div class="circle">
+                 <div class="inner"></div>
+                 <div class="highlight"></div>
+             </div>
+              <div class="square"></div>
+              <div class="shadow"></div>
+           </div>
+                          
+          </div>
+        </main>
+
+            
+          </div>
+          <div id="profile" class="forms">profile page</div>
+          <div id="ekyc-form" class="forms animation">
+            
+        </div>
+        </div>
+      </div>
+      <div id="loader-verify">
+        <div class="timer">
+          <div class="controls">
+            <input id="duration" value="3" />
+            <div>
+              <button id="start"><i class="fas fa-play"></i></button>
+              <button id="pause"><i class="fas fa-pause"></i></button>
+            </div>
+          </div>
+          <div class="infoo">
+            <h1>
+              <!-- <span style="display: block; text-align: center">
+                success</span
+              > -->
+              eKYC verification completed successfully
+            </h1>
+            <!-- <div data-title=".dot-flashing" style="margin-left: 1.5rem">
+              <div class="stage">
+                <div class="dot-flashing"></div>
+              </div>
+            </div> -->
+          </div>
+          <svg class="dial">
+            <defs>
+              <filter id="f1" x="0" y="0" width="200%" height="200%">
+                <feOffset result="offOut" in="SourceGraphic" dx="20" dy="20" />
+                <feBlend in="SourceGraphic" in2="offOut" mode="normal" />
+              </filter>
+            </defs>
+            <circle
+              fill="transparent"
+              stroke="#01684F"
+              stroke-width="10"
+              r="250"
+              cx="-110"
+              cy="300"
+              transform="rotate(-90 100 100)"
+            />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // fail validation (added now)
+      const name = document.getElementById("name");
+      const dob = document.getElementById("dob");
+      const aadhar = document.getElementById("aadhar");
+      const mobileNumber = document.querySelector("#mobile");
+      const address1 = document.getElementById("address1");
+      const address2 = document.getElementById("address2");
+      const address3 = document.getElementById("address3");
+      const reset = document.querySelector("#ekyc-form form .buttons #reset");
+      const mainSubmit = document.getElementById("main-submit");
+      const inputs = document.querySelectorAll(".forms input");
+      const aadharInputs = document.querySelectorAll(".aadhar-inputs input");
+      const nameFailAlert = document.querySelector(".name-fail");
+      const dobFailAlert = document.querySelector(".dob-fail");
+      const aadharFailAlert = document.querySelector(".aadhar-fail");
+      const addressFailAlert = document.querySelector(".address-fail");
+      const state = document.getElementById("state");
+      const dashboard = document.getElementById("dashboard");
+      const aadhar1 = document.querySelector("#aadhar-1");
+      const aadhar2 = document.querySelector("#aadhar-2");
+      const aadhar3 = document.querySelector("#aadhar-3");
+      const preloader = document.querySelector(".preloader-container");
+      const preloaderFail = document.querySelector(
+        ".preloader-container .fail"
+      );
+      const preloaderSuccess = document.querySelector(
+        ".preloader-container .success"
+      );
+
+      // (added now)
+      inputs.forEach((input) => {
+        input.addEventListener("keydown", () => {
+          input.setAttribute(
+            "oninput",
+            "this.value = this.value.toUpperCase()"
+          );
+        });
+      });
+
+      aadharInputs.forEach((input) => {
+        input.addEventListener("keypress", function (e) {
+          var char = String.fromCharCode(e.which);
+          if (!/[0-9]/.test(char)) {
+            e.preventDefault();
+          }
+        });
+      });
+
+      // dob.addEventListener("click", () => {
+      //   dobFailAlert.style.display = "none";
+      //   dob.style.border = "none";
+      // });
+
+      // name.addEventListener("click", () => {
+      //   nameFailAlert.style.display = "none";
+      //   name.style.border = "none";
+      // });
+
+      // aadhar1.addEventListener("click", () => {
+      //   aadhar1.style.border = "none";
+      //   aadhar2.style.border = "none";
+      //   aadhar3.style.border = "none";
+      //   aadharFailAlert.style.display = "none";
+      // });
+
+      // aadhar1.addEventListener("keyup", function (e) {
+      //   const length = e.target.value.length;
+      //   const maxlength = parseInt(this.getAttribute("maxlength"));
+      //   if (length === maxlength) {
+      //     aadhar2.focus();
+      //   }
+      // });
+
+      // aadhar2.addEventListener("keyup", function (e) {
+      //   const length = e.target.value.length;
+      //   const maxlength = parseInt(this.getAttribute("maxlength"));
+      //   if (length === maxlength) {
+      //     aadhar3.focus();
+      //   }
+      // });
+
+      // aadhar3.addEventListener("keyup", function (e) {
+      //   const length = e.target.value.length;
+      //   const maxlength = parseInt(this.getAttribute("maxlength"));
+      //   if (length === maxlength) {
+      //     address1.focus();
+      //   }
+      // });
+
+      // address1.addEventListener("click", function (e) {
+      //   address1.style.border = "none";
+      //   addressFailAlert.style.display = "none";
+      //   address3.style.border = "none";
+      //   address2.style.border = "none";
+      // });
+
+      // mobileNumber.addEventListener("click", () => {
+      //   if (name.value === "") {
+      //     name.style.border = "2px solid red";
+      //     nameFailAlert.style.display = "flex";
+      //   }
+      //   if (dob.value === "") {
+      //     dob.style.border = "2px solid red";
+      //     dobFailAlert.style.display = "flex";
+      //   }
+      //   if (!aadhar1.value || !aadhar2.value || !aadhar3) {
+      //     aadhar1.style.border = "2px solid red";
+      //     aadhar2.style.border = "2px solid red";
+      //     aadhar3.style.border = "2px solid red";
+      //     aadharFailAlert.style.display = "flex";
+      //   }
+      //   if (!address1.value && !address2.value && !address3.value) {
+      //     address1.style.border = "2px solid red";
+      //     address2.style.border = "2px solid red";
+      //     address3.style.border = "2px solid red";
+      //     addressFailAlert.style.display = "flex";
+      //   }
+      // });
+
+      // mobileNumber.addEventListener("keypress", function (e) {
+      //   var char = String.fromCharCode(e.which);
+      //   console.log(char);
+      //   if (!/[0-9]/.test(char)) {
+      //     e.preventDefault();
+      //   }
+      //   if (mobileNumber.value.length < 9) {
+      //     preloaderSuccess.querySelector("p").innerText =
+      //       "Mobile Number must be of 10-digits";
+      //     preloaderSuccess.style.display = "flex";
+      //     preloaderSuccess.style.color = "green";
+      //     mobileNumber.style.border = "2px solid green";
+      //   }
+      //   if (mobileNumber.value.length === 9) {
+      //     preloaderSuccess.style.display = "none";
+      //   }
+      // });
+
+      // //(added now end)
+
+      // // (added now start)
+      // reset.addEventListener("click", () => {
+      //   preloaderTube.style.display = "none";
+      //   preloaderFail.style.display = "none";
+      //   preloaderSuccess.style.display = "none";
+      //   preloader2.style.display = "none";
+      //   mobileNumber.removeAttribute("disabled");
+      //   otpMessages.querySelector(".success").style.display = "none";
+      //   otpMessages.querySelector(".fail").style.display = "none";
+      //   otpBox.value = "";
+      //   inputs.forEach((button) => button.removeAttribute("disabled"));
+      //   nameFailAlert.style.display = "none";
+      //   addressFailAlert.style.display = "none";
+      //   aadharFailAlert.style.display = "none";
+      //   dobFailAlert.style.display = "none";
+
+      //   name.style.border = "none";
+      //   dob.style.border = "none";
+      //   address1.style.border = "none";
+      //   address2.style.border = "none";
+      //   address3.style.border = "none";
+      //   aadhar1.style.border = "none";
+      //   aadhar2.style.border = "none";
+      //   aadhar3.style.border = "none";
+      //   console.log("reset");
+      // });
+
+      // mainSubmit.addEventListener("click", (e) => {
+      //   // added now
+      //   if (mobileNumber.value === "") {
+      //     preloaderFail.querySelector("p").innerText =
+      //       "Mobile field cannot be empty";
+      //     mobileNumber.style.border = "2px solid red";
+      //     preloaderFail.style.display = "flex";
+      //     preloaderSuccess.style.display = "none";
+      //     e.preventDefault();
+      //   }
+      //   // added now (end)
+
+      //   if (name.value === "") {
+      //     name.style.border = "2px solid red";
+      //     nameFailAlert.style.display = "flex";
+      //     // mobileNumber.setAttribute("disabled", true);
+      //     e.preventDefault();
+      //   }
+      //   if (dob.value === "") {
+      //     dob.style.border = "2px solid red";
+      //     dobFailAlert.style.display = "flex";
+      //     // mobileNumber.setAttribute("disabled", true);
+      //     e.preventDefault();
+      //   }
+      //   if (!aadhar1.value || !aadhar2.value || !aadhar3) {
+      //     aadhar1.style.border = "2px solid red";
+      //     aadhar2.style.border = "2px solid red";
+      //     aadhar3.style.border = "2px solid red";
+      //     aadharFailAlert.style.display = "flex";
+      //     // mobileNumber.setAttribute("disabled", true);
+      //     e.preventDefault();
+      //   }
+      //   if (!address1.value && !address2.value && !address3.value) {
+      //     address1.style.border = "2px solid red";
+      //     address2.style.border = "2px solid red";
+      //     address3.style.border = "2px solid red";
+      //     addressFailAlert.style.display = "flex";
+      //     // mobileNumber.setAttribute("disabled", true);
+      //     e.preventDefault();
+      //   }
+      // });
+
+      // mobileNumber.addEventListener("click", () => {
+      //   preloaderFail.style.display = "none";
+      //   mobileNumber.style.border = "none";
+      // });
+
+      // // (added now end)
+
+      // // sidebar
+      // const sidebutton = document.querySelector(".sidebar-navbar button");
+      // const sidebarButtons = document.querySelectorAll(".sidebarButton");
+      // const sidebarNavbarIcons = document.querySelectorAll(
+      //   ".sidebar-navbar img"
+      // );
+
+      // // const logo1 = document.querySelector("#logo1");
+      // const logo2 = document.querySelector("#logo2");
+
+      // // Tabcontainer
+      // const tabsContainer = document.querySelector(".tabs-container");
+
+      // // Tabcontainer Header
+      // const profilePicture = document.querySelector(
+      //   ".profile-container figure"
+      // );
+      // const submenu = document.querySelector(".profile-container .submenu");
+      // const forms = document.querySelectorAll(".forms");
+
+      // Functions declaration
+
+      // 1. Show and hide sidebar with button click
+      function showContainer(e) {
+        console.log(e);
+        const title = e.target.innerText.toLowerCase();
+        console.log(title);
+        forms.forEach((item) => {
+          if (item.getAttribute("id") === title) {
+            item.style.display = "flex";
+            item.classList.add("animation");
+            this.classList.add("sidebar-button-active");
+          } else {
+            item.style.display = "none";
+            sidebarButtons.forEach((button) => {
+              if (button !== this) {
+                button.classList.remove("sidebar-button-active");
+              }
+            });
+          }
+        });
+      }
+
+      // // 1. adding evenetlisteners to sidebar buttons
+      // sidebarButtons.forEach((button) => {
+      //   button.addEventListener("click", showContainer);
+      // });
+
+      // // sidebar button icon
+      // sidebutton.addEventListener("click", () => {
+      //   tabsContainer.classList.toggle("tabs-container-active");
+      //   logo2.classList.toggle("inactive");
+      // });
+
+      // loader
+      class Timer {
+        constructor(durationInput, startButton, pauseButton, callbacks) {
+          this.durationInput = durationInput;
+          this.startButton = startButton;
+          this.pauseButton = pauseButton;
+          if (callbacks) {
+            this.onStart = callbacks.onStart;
+            this.onTick = callbacks.onTick;
+            this.onComplete = callbacks.onComplete;
+          }
+        }
+
+        start = () => {
+          if (this.onStart) {
+            this.onStart(this.timeRemaining);
+          }
+          this.tick();
+          this.interval = setInterval(this.tick, 10);
+        };
+
+        pause = () => {
+          clearInterval(this.interval);
+        };
+
+        tick = () => {
+          if (this.timeRemaining <= 0) {
+            this.pause();
+            if (this.onComplete) {
+              this.onComplete();
+            }
+            this.timeRemaining = 1;
+          } else {
+            this.timeRemaining = this.timeRemaining - 0.01;
+            if (this.onTick) {
+              this.onTick(this.timeRemaining);
+            }
+          }
+        };
+
+        get timeRemaining() {
+          return parseFloat(this.durationInput.value);
+        }
+        set timeRemaining(time) {
+          this.durationInput.value = time.toFixed(2);
+        }
+      }
+
+      const loaderVerifyContainer = document.getElementById("loader-verify");
+      const durationInput = document.getElementById("duration");
+      const startButton = document.getElementById("start");
+      const pauseButton = document.getElementById("pause");
+      const circle = document.querySelector("circle");
+
+      const perimeter = circle.getAttribute("r") * 2 * Math.PI;
+      circle.setAttribute("stroke-dasharray", perimeter);
+
+      const cibilSection = document.querySelector(".cibil-section");
+      console.log(cibilSection);
+
+      let currentOffset = 0;
+      let duration;
+      const timer = new Timer(durationInput, startButton, pauseButton, {
+        onStart(totalDuration) {
+          duration = totalDuration;
+          // console.log(totalDuration);
+        },
+        onTick(timeRemaining) {
+          circle.setAttribute(
+            "stroke-dashoffset",
+            (perimeter * timeRemaining) / duration - perimeter
+          );
+        },
+        onComplete() {
+          loaderVerifyContainer.style.display = "none";
+          cibilSection.style.display = "flex";
+        },
+      })
+    </script>
+    <script>
+
+      const frontSubmitButton = document.getElementById("front-submit-button");
+      const backSubmitButton = document.getElementById("back-submit-button");
+
+      const theCard = document.querySelector(".thecard");
+      const verify1 = document.getElementById("verify1");
+      const verify2 = document.getElementById("verify2");
+      const verify3 = document.getElementById("verify3");
+      const verify4 = document.getElementById("verify4");
+      const bdayForm = document.getElementById("bdayform");
+      const formBack = document.getElementById("formback");
+      const bday = document.getElementById("bday");
+      const nextButton = document.getElementById("nextbutton");
+      const adhar= document.getElementById("aadhar");
+      const address = document.getElementById("address");
+      const nextButton1 = document.getElementById("nextbutton1");
+      const nextButton2 = document.getElementById("nextbutton2");
+      const name1 = document.getElementById("name1");
+      // const adhar1 = document.querySelector("aadhar1");
+      // const adhar2 = document.querySelector("aadhar2");
+      // const adhar3 = document.querySelector("aadhar3");
+      const mobile = document.getElementById("mobile");
+      const home = document.getElementById("home");
+      const date = document.getElementById("date");
+      const dateButton = document.getElementById("date-button");
+      const aadharCard = document.getElementById("aadharcard");
+      const aadharNumber = document.getElementById("aadharnumber"); 
+      
+      
+
+     
+      
+      frontSubmitButton.addEventListener("click", () => {
+        theCard.classList.add("active");
+      })
+
+      backSubmitButton.addEventListener("click", () => {
+        console.log(verify1.value, verify2.value, verify3.value, verify4.value)
+        if(verify1.value==="1" && verify2.value==="2" && verify3.value==="3" && verify4.value==="4"){
+
+            formBack.style.display = "none";
+            bday.style.display = "flex";  
+            mobile.style.display ="none";
+            date.style.display ="flex";
+
+
+        }
+        else {
+          alert("invalid otp")
+        }
+
+        
+      })
+
+     
+
+      nextButton.addEventListener("click", () => {
+        bday.style.display = "none";
+        adhar.style.display = "flex";
+        date.style.display = "none";
+        aadharNumber.style.display = "flex";
+      })
+
+      nextButton1.addEventListener("click", () => {
+        adhar.style.display = "none";
+        address.style.display = "flex";
+        aadharNumber.style.display ="none";
+        home.style.display = "flex";
+      })
+
+      nextButton2.addEventListener("click", () => {
+        address.style.display = "none";
+        name1.style.display = "flex";
+        home.style.display = "none";
+        aadharCard.style.display = "flex";
+      })
+      
+      verify1.addEventListener("keyup", function (e) {
+        const length = e.target.value.length;
+        const maxlength = parseInt(this.getAttribute("maxlength"));
+        if (length === maxlength) {
+          verify2.focus();
+        }
+      });
+
+      verify2.addEventListener("keyup", function (e) {
+        const length = e.target.value.length;
+        const maxlength = parseInt(this.getAttribute("maxlength"));
+        if (length === maxlength) {
+          verify3.focus();
+        }
+      });
+
+      verify3.addEventListener("keyup", function (e) {
+        const length = e.target.value.length;
+        const maxlength = parseInt(this.getAttribute("maxlength"));
+        if (length === maxlength) {
+          verify4.focus();
+        }
+      });
+
+      verify4.addEventListener("keyup", function (e) {
+        const length = e.target.value.length;
+        const maxlength = parseInt(this.getAttribute("maxlength"));
+        if (length === maxlength) {
+          console.log(length, maxlength)
+          backSubmitButton.focus();
+        }
+      });
+
+      
+
+      // adhar1.addEventListener("keyup", function (e) {
+      //   const length = e.target.value.length;
+      //   const maxlength = parseInt(this.getAttribute("maxlength"));
+      //   if (length === maxlength) {
+      //     adhar2.focus();
+      //   }
+      // });
+
+     
+
+      // adhar2.addEventListener("keyup", function (e) {
+      //   const length = e.target.value.length;
+      //   const maxlength = parseInt(this.getAttribute("maxlength"));
+      //   if (length === maxlength) {
+      //     adhar3.focus();
+      //   }
+      // });
+
+      // adhar3.addEventListener("keyup", function (e) {
+      //   const length = e.target.value.length;
+      //   const maxlength = parseInt(this.getAttribute("maxlength"));
+      //   if (length === maxlength) {
+      //     nextButton1.focus();
+      //   }
+      // });
+
+
+
+    </script>
+
+    <script>
+
+      const calendar = document.getElementById("calendar");
+      const day = document.getElementById("day");
+      const month = document.getElementById("month");
+      const year = document.getElementById("year");
+      const calendarFigure = document.getElementById("calendar-figure");
+      const calendarBody = document.querySelector(".calendar__body");
+      const one = document.getElementById("one");
+      const modal = document.querySelector(".modal");
+      console.log(one);
+
+        setTimeout(() => {
+        calendarFigure.style.background = "gray";
+        calendarBody.style.animation = "slideDown 1000ms forwards ease-in-out";
+        setTimeout(() => {
+          calendarFigure.style.background = "none";
+        }, 100);
+        setTimeout(() => {
+          one.style.background = "gray";
+          day.value = "01";
+          setTimeout(() => {
+            one.style.background = "none";
+          }, 150);
+        }, 3000);
+        setTimeout(() => {
+          month.value = "12";
+        }, 5000);
+        setTimeout(() => {
+          year.value = "1989";
+        }, 7000);
+      }, 2000);
+      modal.style.transform = "translateX(200%)";
+      
+
+      
+    </script>
+  </body>
+</html>
